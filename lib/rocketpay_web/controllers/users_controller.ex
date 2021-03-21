@@ -3,6 +3,8 @@ defmodule RocketpayWeb.UsersController do
 
   alias Rocketpay.User
 
+  action_fallback RocketpayWeb.FallbackController
+
   def create(conn, params) do
     params
     |> Rocketpay.create_user()
@@ -15,12 +17,6 @@ defmodule RocketpayWeb.UsersController do
     |> render("create.json", user: user)
   end
 
-  defp handle_response({:error, result}, conn) do
-    conn
-    |> put_status(:bad_request)
-    |> put_view(RocketpayWeb.ErrorView)
-    |> render("400.json", result: result)
-    # retornar error p/ cada cenário (password, email, nickname)
-  end
+  defp handle_response({:error, result} = error, conn), do: error
 
 end

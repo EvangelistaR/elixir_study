@@ -5,18 +5,12 @@ defmodule RocketpayWeb.UsersController do
 
   action_fallback RocketpayWeb.FallbackController
 
+  # retornando erro, caso não dê match, para o método que chamou a função
   def create(conn, params) do
-    params
-    |> Rocketpay.create_user()
-    |> handle_response(conn)
+    with {:ok, %User{} = user} <- Rocketpay.create_user(params) do
+      conn
+      |> put_status(:created)
+      |> render("create.json", user: user)
+    end
   end
-
-  defp handle_response({:ok, %User{} = user}, conn) do
-    conn
-    |> put_status(:created)
-    |> render("create.json", user: user)
-  end
-
-  defp handle_response({:error, result} = error, conn), do: error
-
 end

@@ -6,6 +6,7 @@ To start your Phoenix server:
   * Create and migrate your database with `mix ecto.setup`
   * Start Phoenix endpoint with `mix phx.server`
   * Run test with `mix test`
+  * Start postgres by docker container (docker start container_id)
 
 Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
